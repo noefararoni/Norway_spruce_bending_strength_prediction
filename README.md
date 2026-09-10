@@ -64,52 +64,8 @@ requirements-lock.txt exact dependency snapshot from the verified environment
 
 ## Data and research assumptions
 
-The target is `Bending strength`. Predictors are Width, Height, Density,
-Growth-ring width, Test span and Dynamic E. Tracking fields never enter the model.
-CSV reading supports semicolons with decimal commas and commas with decimal points.
-Cleaning discards rows with missing, nonnumeric or infinite predictor/target values,
-retaining original row indices and available source tracking fields.
 
-The existing merged dataset is the default example because the raw Size_A/B/C
-files do not all provide the required Dynamic E feature. The `prepare` command
-accepts complete source CSVs and fails clearly when a required feature is missing:
-
-```powershell
-.\.venv\Scripts\python.exe -m wood_regression prepare path/to/source1.csv path/to/source2.csv --output outputs/merged.csv
-```
-
-Physics constraints follow the user-approved `Last_drow_PI_LR.py`: positive Density
-and Dynamic E; negative Growth-ring width and Test span. Width and Height are
-unconstrained. The penalty is summed, not averaged. These are soft sign assumptions.
-Defaults preserve learning rate 0.1, 120750 iterations, and lambda 0.004.
-The earlier six-feature normalized penalty was a different model.
-
-Matching `Last_drow_LR.py`, normal regression defaults to original CV followed by CV
-after removing the five highest-error specimens. Physics regression keeps all rows.
-Use `--remove-outliers 0` to disable removal or `--remove-outliers N` to set a count.
-Its cleaned cross-validation scores have selection bias and must not be interpreted
-as independent performance estimates. Reserve untouched external data for assessment.
-
-See `REVIEW.md` for the cleanup decisions and known limitations.
 
 ## Reference-aligned results
 
-Local corrected full experiments were saved in `outputs/reference-normal` and
-`outputs/reference-physics`. Generated outputs are not included in Git; rerun training
-to create your own results. The verified scores are documented in `REVIEW.md`.
-Use `--plot` on either training command to save the figures.
-
-Physics CV figures show both overall RMSE and average fold RMSE. Overall RMSE is
-sqrt(MSE); average fold RMSE is the mean of per-fold RMSEs, which equals MAE in
-leave-one-out validation. The reference physics figure reports the latter.
-Normal figures include MAE and use equal axes; all figures are saved at 300 DPI.
-
-Each run records the training CSV SHA-256, feature order, settings and metric
-definitions. Prediction CSVs retain original indices, source tracking, Size A/B/C,
-fold number and errors. Signed error is consistently measured minus predicted;
-the reference physics Excel helper used the opposite sign. Reports use CSV/JSON
-and PNG; reference-specific Excel layouts remain in `tests/reference`.
-
-Unmodified supplied scripts, configuration and preprocessing are in `tests/reference`.
-Regression tests execute their actual model/evaluation bodies with display/export
-side effects replaced, checking prediction equivalence. Progress prints every ten folds.
+ress prints every ten folds.
