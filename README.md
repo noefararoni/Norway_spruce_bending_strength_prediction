@@ -63,8 +63,8 @@ requirements-lock.txt exact dependency snapshot from the verified environment
 ```
 
 ## Data and research assumptions
-
+The data was obtained from non-destructive measurements and three-point bending experiments. The non-destructive measurements considered equilibrium density at 65% air relative humidity and 20 °C, dynamic modulus of elasticity, growth-ring width, height, span between supports, and width. The three-point bending experiments delivered the bending strength.
 
 
 ## Reference
-
+https://doi.org/10.1016/j.conbuildmat.2025.140719
