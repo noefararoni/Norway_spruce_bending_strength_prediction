@@ -1,0 +1,4 @@
+* text=auto
+*.csv -text
+tests/reference/*.py -text
+*.png binary
