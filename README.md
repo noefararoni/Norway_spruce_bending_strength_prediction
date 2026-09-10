@@ -66,5 +66,5 @@ requirements-lock.txt exact dependency snapshot from the verified environment
 
 
 
-## Reference-aligned results
+## Reference
 
