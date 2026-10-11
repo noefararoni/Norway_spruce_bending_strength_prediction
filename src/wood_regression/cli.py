@@ -24,6 +24,22 @@ from .plotting import plot_predictions
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    generalize = commands.add_parser(
+        "generalize", help="Compare both models on untouched external data"
+    )
+    generalize.add_argument("--data", type=Path, required=True)
+    generalize.add_argument("--external", type=Path, required=True)
+    generalize.add_argument("--output", type=Path, required=True)
+    generalize.add_argument("--iterations", type=int, default=N_ITERATIONS)
+    generalize.add_argument("--learning-rate", type=float, default=LEARNING_RATE)
+    generalize.add_argument("--physics-lambda", type=float, default=PHYSICS_LAMBDA)
+    generalize.add_argument(
+        "--physics-method",
+        choices=["historical", "plot-reference"],
+        default="historical",
+        help="Historical generalization or approved plotting model",
+    )
+    generalize.add_argument("--plot", action="store_true")
     prepare = commands.add_parser("prepare", help="Merge and clean input CSVs")
     prepare.add_argument("inputs", nargs="+", type=Path)
     prepare.add_argument("--output", type=Path, required=True)
@@ -44,6 +60,11 @@ def main():
     )
     run.add_argument("--plot", action="store_true")
     args = parser.parse_args()
+    if args.command == "generalize":
+        from .generalization import evaluate_external
+
+        evaluate_external(args)
+        return
     if args.command == "prepare":
         df = merge_datasets(args.inputs)
         args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,5 +1,19 @@
 # Review and cleanup decisions
 
+## Explicit generalization protocol (2026-10-11)
+
+The `generalize` command now compares normal and historical physics regression on
+the same 99 original training specimens and 25 external specimens. No outlier
+selection is performed. Full 120750-iteration fits reproduce R² 0.315897609 and
+0.386809636 respectively. This uses the averaged six-feature penalty from
+`Final_PI_LR_Outliers.py`; it is distinct from the four-feature summed penalty in
+the approved plotting model. `--physics-method plot-reference` selects that model
+explicitly. The existing `run` command retains its behavior.
+
+The command exports predictions, coefficients, a comparison, plots and a manifest
+with dataset hashes and settings. It rejects exact train/external observation
+overlap. This is historical replication, not a newly collected blind holdout.
+
 ## Current reference correction
 
 The authoritative methods are now the user-supplied Last_drow_LR.py and

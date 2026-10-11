@@ -6,8 +6,9 @@ import numpy as np
 class LinearRegression:
     """MSE regression with optional soft coefficient-sign penalties.
 
-    The penalty is summed, matching Last_drow_PI_LR.py. Width and Height
-    are unconstrained. Inputs must be standardized using training data.
+    The default penalty is summed. The caller selects constrained features;
+    normalize_penalty=True reproduces the historical averaged penalty.
+    Inputs must be standardized using training data.
     """
 
     def __init__(
@@ -17,6 +18,7 @@ class LinearRegression:
         physics_lambda=0.0,
         positive_features=(),
         negative_features=(),
+        normalize_penalty=False,
     ):
         if not np.isfinite(learning_rate) or learning_rate <= 0:
             raise ValueError("learning_rate must be finite and positive.")
@@ -29,6 +31,7 @@ class LinearRegression:
         self.physics_lambda = physics_lambda
         self.positive_features = tuple(positive_features)
         self.negative_features = tuple(negative_features)
+        self.normalize_penalty = normalize_penalty
         self.weights = None
         self.bias = None
 
@@ -45,12 +48,13 @@ class LinearRegression:
         if positive & negative or (positive | negative) - set(names):
             raise ValueError("Constraints must reference existing, nonoverlapping features.")
         signs = np.array([1 if n in positive else -1 if n in negative else 0 for n in names])
+        penalty_divisor = max(np.count_nonzero(signs), 1) if self.normalize_penalty else 1
         self.weights, self.bias = np.zeros(X.shape[1]), 0.0
         for _ in range(self.n_iterations):
             error = np.dot(X, self.weights) + self.bias - y
             gradient = (2.0 / len(y)) * np.dot(X.T, error)
             violations = self.weights * signs < 0
-            gradient += 2 * self.physics_lambda * self.weights * violations
+            gradient += 2 * self.physics_lambda * self.weights * violations / penalty_divisor
             self.weights -= self.learning_rate * gradient
             self.bias -= self.learning_rate * ((2.0 / len(y)) * np.sum(error))
             if not np.isfinite(self.weights).all() or not np.isfinite(self.bias):

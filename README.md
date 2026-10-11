@@ -4,6 +4,43 @@ A previous study proposed a method to project the ultimate force of a scaled hyb
 
 # Wood regression
 
+## Generalization test (historical comparison)
+
+From the repository root, after installing the package with `python -m pip install -e .`, run:
+
+```powershell
+python -m wood_regression generalize --data Data/final_clean_merged_dataframe.csv --external Data/generalisation_validation.csv --output outputs/generalization-final --plot
+```
+
+This fits both models on the same 99 original training specimens and evaluates the
+same 25 external specimens. It performs no outlier removal, cross-validation or
+hyperparameter search on the external data. Scaling is fitted only on training rows.
+An exact training/external observation overlap is rejected; this check does not prove
+that datasets are independent at the tree, batch or source level.
+
+The default `--physics-method historical` reproduces `Final_PI_LR_Outliers.py`:
+positive Density/Dynamic E, negative Growth-ring width/Height/Test span/Width,
+and a penalty averaged across six constrained features. It uses 120750 iterations,
+learning rate 0.1 and lambda 0.004, fixed from the original configuration.
+
+| Model | MSE (MPa²) | RMSE (MPa) | MAE (MPa) | R² |
+|---|---:|---:|---:|---:|
+| Normal LR | 127.2264 | 11.2795 | 7.7748 | 0.3159 |
+| Historical physics LR | 114.0385 | 10.6789 | 7.1135 | 0.3868 |
+
+These are historical external-validation results, not a fresh untouched holdout for
+selecting the best method. The physics score is 0.3868 (0.39 to two decimals), not 0.40.
+
+Outputs: `comparison.csv`, `metrics.json`, and each model's predictions, coefficients
+and optional PNG. The manifest records dataset hashes, settings, exact physics
+constraints and metric definitions. Choose a new output directory for each run.
+
+The approved plotting model remains available with `--physics-method plot-reference`.
+That method follows `Last_drow_PI_LR.py`, leaves Width/Height unconstrained and sums
+the penalty; its results differ. Existing `run` commands retain their behavior.
+In particular, `run --model normal --external ...` defaults to five-row removal;
+use `generalize` above for a consistent original-data model comparison.
+
 Predict wood bending strength using ordinary or physics-informed linear regression.
 The active implementation is in `src/wood_regression`; historical scripts are in
 `archive/legacy` for reference. They are not part of the installed package.
