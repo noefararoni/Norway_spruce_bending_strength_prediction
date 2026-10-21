@@ -39,14 +39,7 @@ def plot_predictions(
     if not physics_style:
         ax.set_aspect("equal", adjustable="box")
     metric_text = f"MSE = {scores['mse']:.2f} MPa²\nRMSE = {scores['rmse']:.2f} MPa\n"
-    if physics_style and "fold" in table:
-        fold_mse = (
-            table.assign(_squared=(actual - predicted) ** 2).groupby("fold")["_squared"].mean()
-        )
-        average_rmse = float((fold_mse**0.5).mean())
-        metric_text += f"Average fold RMSE = {average_rmse:.2f} MPa\n"
-    else:
-        metric_text += f"MAE = {scores['mae']:.2f} MPa\n"
+    metric_text += f"MAE = {scores['mae']:.2f} MPa\n"
     ax.text(
         0.97,
         0.04,

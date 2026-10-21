@@ -10,6 +10,7 @@ from .config import FEATURES, RANDOM_STATE, TARGET
 
 
 def metrics(actual, predicted):
+    """Pooled metrics: RMSE is sqrt(MSE), never the mean of fold RMSEs."""
     mse = float(mean_squared_error(actual, predicted))
     return {
         "mse": mse,
