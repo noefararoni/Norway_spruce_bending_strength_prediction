@@ -23,14 +23,6 @@ positive Density/Dynamic E, negative Growth-ring width/Height/Test span/Width,
 and a penalty averaged across six constrained features. It uses 120750 iterations,
 learning rate 0.1 and lambda 0.004, fixed from the original configuration.
 
-| Model | MSE (MPa²) | RMSE (MPa) | MAE (MPa) | R² |
-|---|---:|---:|---:|---:|
-| Normal LR | 127.2264 | 11.2795 | 7.7748 | 0.3159 |
-| Historical physics LR | 114.0385 | 10.6789 | 7.1135 | 0.3868 |
-
-These are historical external-validation results, not a fresh untouched holdout for
-selecting the best method. The physics score is 0.3868 (0.39 to two decimals), not 0.40.
-
 Outputs: `comparison.csv`, `metrics.json`, and each model's predictions, coefficients
 and optional PNG. The manifest records dataset hashes, settings, exact physics
 constraints and metric definitions. Choose a new output directory for each run.
