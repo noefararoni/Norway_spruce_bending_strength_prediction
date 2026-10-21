@@ -107,11 +107,4 @@ The data was obtained from non-destructive measurements and three-point bending 
 [3] https://doi.org/10.1103/PhysRev.4.345
 
 
-## Metric reporting correction (2026-10-21)
 
-All new figures report pooled MSE, pooled RMSE, MAE and R².
-RMSE is sqrt(MSE). The mean of single-specimen LOOCV fold RMSEs equals MAE,
-so it must not be reported as pooled RMSE. The diagnostic `average_rmse` field
-remains in JSON for compatibility, but is not used in figure annotations.
-For original normal LR: MSE 54.58 MPa², RMSE 7.39 MPa, MAE 5.88 MPa.
-Earlier descriptions of average fold RMSE on physics figures are superseded.
