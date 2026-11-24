@@ -1,6 +1,6 @@
 # Background
 
-A previous study proposed a method to project the ultimate force of a scaled hybrid glued softwood-to-hardwood column-to-slab connection to the full scale by accounting for different strengths at different sizes [1]. The projection method is based on the Buckingham $\Pi$ theorem [2]. The study indicated that the projection accuracy depends on accurate strength values across different sizes. In order to better predict bending strength necessary for the projection method, machine-learning models are evaluated.
+A previous study proposed a method to project the ultimate force of a scaled hybrid glued softwood-to-hardwood column-to-slab connection to the full scale by accounting for different strengths at different sizes [1]. The projection method is based on the Buckingham $\Pi$ theorem [2]. The study indicated that the projection accuracy depends on accurate strength values across different sizes. In order to better predict bending strength necessary for the projection method, machine-learning models were evaluated.
 
 # Wood regression
 
